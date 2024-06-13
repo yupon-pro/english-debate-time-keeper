@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ベルタイマー</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>ベルタイマー</h1>
+    <div>
+        <label for="min-input-1">時間1</label>
+        <br />
+        <label for="min-input-1">分：</label>
+        <input type="number" min="0" id="min-input-1" placeholder="minutes">
+        <br />
+        <label for="sec-input-1">秒：</label>
+        <input type="number" min="0" id="sec-input-1" placeholder="second">
+    </div>
+    <div>
+        <label for="count-input-1">ベルの回数:</label>
+        <input type="number" min="0" id="count-input-1">
+    </div>
+    <div>
+      <label for="min-input-2">時間2</label>
+      <br />
+      <label for="min-input-2">分：</label>
+      <input type="number" min="0" id="min-input-2" placeholder="minutes">
+      <br />
+      <label for="sec-input-2">秒：</label>
+      <input type="number" min="0" id="sec-input-2" placeholder="second">
+    </div>
+    <div>
+        <label for="count-input-2">ベルの回数:</label>
+        <input type="number" min="0" id="count-input-2">
+    </div>
+    <div>
+      <label for="min-input-3">時間3</label>
+      <br />
+      <label for="min-input-3">分：</label>
+      <input type="number" min="0" id="min-input-3" placeholder="minutes">
+      <br />
+      <label for="sec-input-3">秒：</label>
+      <input type="number" min="0" id="sec-input-3" placeholder="second">
+    </div>
+    <div>
+        <label for="count-input-3">ベルの回数:</label>
+        <input type="number" min="0" id="count-input-3">
+    </div>
+    <div>
+      <label for="min-input-4">時間4</label>
+      <br />
+      <label for="min-input-4">分：</label>
+      <input type="number" min="0" id="min-input-4" placeholder="minutes">
+      <br />
+      <label for="sec-input-4">秒：</label>
+      <input type="number" min="0" id="sec-input-4" placeholder="second">
+    </div>
+    <div>
+        <label for="count-input-4">ベルの回数:</label>
+        <input type="number" min="0" id="count-input-4">
+    </div>
+    <button id="start-btn">スタート</button>
+    <button id="stop-btn">停止</button>
+    <button id="reset-btn">リセット</button>
+    <div id="timer"><h2>0秒</h2></div>
+    <audio id="bell-sound" src="bell.mp3"></audio>
+    <script src="script.js"></script>
+</body>
+</html>
