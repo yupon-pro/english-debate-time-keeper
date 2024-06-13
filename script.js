@@ -31,19 +31,19 @@ resetBtn.addEventListener('click', resetTimer);
 function startTimer() {
     if (isRunning) return;
 
-    const time1 = (parseInt(timeMinInput1.value) || 0)*60 + (parseInt(timeSecInput1.value) || 0);
-    const count1 = parseInt(countInput1.value) || 1;
+    const time1 = validateInput(timeMinInput1.value)*60 + validateInput(timeSecInput1.value);
+    const count1 = validateInput(countInput1.value) || 1;
 
     if (time1 <= 0 || count1 <= 0) return;
 
-    const time2 = (parseInt(timeMinInput2.value) || 0)*60 + (parseInt(timeSecInput2.value))
-    const count2 = parseInt(countInput2.value) || 1;
+    const time2 = validateInput(timeMinInput2.value)*60 + validateInput(timeSecInput2.value)
+    const count2 = validateInput(countInput2.value) || 1;
 
-    const time3 = (parseInt(timeMinInput3.value) || 0)*60 + (parseInt(timeSecInput3.value))
-    const count3 = parseInt(countInput3.value) || 1;
+    const time3 = validateInput(timeMinInput3.value)*60 + validateInput(timeSecInput3.value)
+    const count3 = validateInput(countInput3.value) || 1;
 
-    const time4 = (parseInt(timeMinInput4.value) || 0)*60 + (parseInt(timeSecInput4.value))
-    const count4 = parseInt(countInput4.value) || 1;
+    const time4 = validateInput(timeMinInput4.value)*60 + validateInput(timeSecInput4.value)
+    const count4 = validateInput(countInput4.value) || 1;
 
     const timeList = [time1, time2, time3, time4];
     const countList = [count1,count2,count3, count4];
@@ -83,5 +83,9 @@ async function ringBell(count) {
     bellSound.pause();
     bellSound.currentTime = 0;
   }
+}
 
+function validateInput(value) {
+  const parsedValue = parseInt(value, 10);
+  return isNaN(parsedValue) ? 0 : Math.max(0, parsedValue);
 }
