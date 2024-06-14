@@ -2,51 +2,41 @@ let timer;
 let currentTime = 0;
 let isRunning = false;
 
-const timeMinInput1 = document.getElementById('min-input-1');
-const timeSecInput1 = document.getElementById('sec-input-1');
-const countInput1 = document.getElementById('count-input-1');
-
-const timeMinInput2 = document.getElementById('min-input-2');
-const timeSecInput2 = document.getElementById('sec-input-2');
-const countInput2 = document.getElementById('count-input-2');
-
-const timeMinInput3 = document.getElementById('min-input-3');
-const timeSecInput3 = document.getElementById('sec-input-3');
-const countInput3 = document.getElementById('count-input-3');
-
-const timeMinInput4 = document.getElementById('min-input-4');
-const timeSecInput4 = document.getElementById('sec-input-4');
-const countInput4 = document.getElementById('count-input-4');
+const timerContainer = document.getElementById("timer-container");
 
 const timerDisplay = document.getElementById('timer');
 const bellSound = new Audio("bell.mp3");
 const startBtn = document.getElementById('start-btn');
 const stopBtn = document.getElementById('stop-btn');
 const resetBtn = document.getElementById('reset-btn');
+const moreBtn = document.getElementById("more");
+const lessBtn = document.getElementById("less");
 
 startBtn.addEventListener('click', startTimer);
 stopBtn.addEventListener('click', stopTimer);
 resetBtn.addEventListener('click', resetTimer);
+moreBtn.addEventListener("click",moreTimer);
+lessBtn.addEventListener("click",lessTimer);
+
 
 function startTimer() {
     if (isRunning) return;
 
-    const time1 = validateInput(timeMinInput1.value)*60 + validateInput(timeSecInput1.value);
-    const count1 = validateInput(countInput1.value) || 1;
+    const timerSectionsLength = getTimerSections().timerSectionsLength;
 
-    if (time1 <= 0 || count1 <= 0) return;
+    const timeList = new Array(timerSectionsLength).fill(0).map((_,index) => {
+      const minutes = validateInput(document.getElementById(`min-input-${index+1}`).value);
+      const seconds = validateInput(document.getElementById(`sec-input-${index+1}`).value);
+      return  minutes*60 + seconds;
+    });
 
-    const time2 = validateInput(timeMinInput2.value)*60 + validateInput(timeSecInput2.value)
-    const count2 = validateInput(countInput2.value) || 1;
+    const countList = new Array(timerSectionsLength).fill(0).map((_, index) => {
+      return validateInput(document.getElementById(`count-input-${index+1}`).value) || 1;
+    });
 
-    const time3 = validateInput(timeMinInput3.value)*60 + validateInput(timeSecInput3.value)
-    const count3 = validateInput(countInput3.value) || 1;
+    if(!timeList[0]) return;
 
-    const time4 = validateInput(timeMinInput4.value)*60 + validateInput(timeSecInput4.value)
-    const count4 = validateInput(countInput4.value) || 1;
-
-    const timeList = [time1, time2, time3, time4];
-    const countList = [count1,count2,count3, count4];
+    console.log(timeList, countList);
 
     isRunning = true;
     currentTime = 0;
@@ -74,6 +64,59 @@ function resetTimer() {
     timerDisplay.textContent = '0秒';
 }
 
+function moreTimer() {
+  function createLabel(forAttr, text) {
+    const label = document.createElement('label');
+    label.setAttribute('for', forAttr);
+    label.textContent = text;
+    return label;
+  }
+
+  function createInput(id, type, min, placeholder) {
+    const input = document.createElement('input');
+    input.setAttribute('id', id);
+    input.setAttribute('type', type);
+    input.setAttribute('min', min);
+    if (placeholder) {
+        input.setAttribute('placeholder', placeholder);
+    }
+    return input;
+  }
+
+  const nextSectionIndex = getTimerSections().timerSectionsLength + 1;
+
+  const section = document.createElement('section');
+  section.id = `time-${nextSectionIndex}`;
+  section.className = "timer-section";
+
+  const div1 = document.createElement('div');
+  div1.appendChild(createLabel(`min-input-${nextSectionIndex}`, `時間${nextSectionIndex}`));
+  div1.appendChild(document.createElement('br'));
+  div1.appendChild(createLabel(`min-input-${nextSectionIndex}`, '分：'));
+  div1.appendChild(createInput(`min-input-${nextSectionIndex}`, 'number', '0', 'minutes'));
+  div1.appendChild(document.createElement('br'));
+  div1.appendChild(createLabel(`sec-input-${nextSectionIndex}`, '秒：'));
+  div1.appendChild(createInput(`sec-input-${nextSectionIndex}`, 'number', '0', 'seconds'));
+
+  const div2 = document.createElement('div');
+  div2.appendChild(createLabel(`count-input-${nextSectionIndex}`, 'ベルの回数:'));
+  div2.appendChild(createInput(`count-input-${nextSectionIndex}`, 'number', '0'));
+  div2.lastChild.setAttribute('max', '5'); // Set max attribute for the last input element
+
+  section.appendChild(div1);
+  section.appendChild(div2);
+
+  timerContainer.appendChild(section);
+
+}
+
+function lessTimer(){
+  const {timerSections, timerSectionsLength }= getTimerSections();
+  if(timerSectionsLength <= 1) return;
+  const lastTimerSection = timerSections[timerSectionsLength - 1];
+  lastTimerSection.remove();
+}
+
 async function ringBell(count) {
   let waitTime = count == 1 ? 2000 : count == 2 ? 900 : 550; 
   for(let i = 0; i < count; i ++){
@@ -88,4 +131,10 @@ async function ringBell(count) {
 function validateInput(value) {
   const parsedValue = parseInt(value, 10);
   return isNaN(parsedValue) ? 0 : Math.max(0, parsedValue);
+}
+
+function getTimerSections () {
+  const timerSections = document.getElementsByClassName("timer-section");
+  const timerSectionsLength = timerSections.length;
+  return {timerSections, timerSectionsLength};
 }
