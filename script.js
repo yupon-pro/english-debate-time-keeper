@@ -43,7 +43,7 @@ function startTimer() {
 
     timer = setInterval(async() => {
         currentTime++;
-        timerDisplay.textContent = currentTime <= 60 ? `${currentTime}秒` : `${Math.floor(currentTime / 60)}分${currentTime % 60}秒` ;
+        timerDisplay.textContent = currentTime <= 60 ? `${currentTime}秒` : `${Math.floor(currentTime / 60)}分${currentTime % 60}秒`;
 
       const index = timeList.indexOf(currentTime);
         if(index !== -1){
@@ -101,7 +101,7 @@ function moreTimer() {
   const div2 = document.createElement('div');
   div2.appendChild(createLabel(`count-input-${nextSectionIndex}`, 'ベルの回数:'));
   div2.appendChild(createInput(`count-input-${nextSectionIndex}`, 'number', '0'));
-  div2.lastChild.setAttribute('max', '5'); // Set max attribute for the last input element
+  div2.lastChild.setAttribute('max', '5'); 
 
   section.appendChild(div1);
   section.appendChild(div2);
